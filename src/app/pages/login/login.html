@@ -1,0 +1,11 @@
+<form (ngSubmit)="onSubmit()">
+    <div>
+        <label>tên đăng nhập</label>
+        <input [(ngModel)]="loginData.username" name="name" required>
+        <label>mật khẩu</label>
+        <input [(ngModel)]="loginData.password" name="password" type="password" required>
+        <button (click)="onSubmit()" type="submit">Đăng nhập</button>
+    </div>
+    <div>
+    </div>
+</form>
