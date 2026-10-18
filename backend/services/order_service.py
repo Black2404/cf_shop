@@ -68,7 +68,7 @@ async def create_order(order_data: OrderCreate):
         "order_type": order_data.order_type,
         "table_number": order_data.table_number,
         "total": total,
-        "payment_status": "unpaid"
+        "payment_status": "paid"
     }
 
     result = await order_collection.insert_one(order)
@@ -81,30 +81,7 @@ async def create_order(order_data: OrderCreate):
         )
 
     return {
-        "id": str(result.inserted_id),
-        **order
-    }
-
-async def pay_order(order_id: str):
-    if not ObjectId.is_valid(order_id):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid order ID"
-        )
-
-    result = await order_collection.update_one(
-        {"_id": ObjectId(order_id)},
-        {"$set": {"payment_status": "paid"}}
-    )
-
-    if result.matched_count == 0:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Order not found"
-        )
-
-    return {
         "message": "Payment successful",
-        "order_id": order_id,
+        "order_id": str(result.inserted_id),
         "payment_status": "paid"
     }

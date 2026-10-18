@@ -72,11 +72,6 @@ class OrderItemResponse(BaseModel):
     subtotal: float
 
 
-class OrderResponse(OrderCreate):
-    id: str
-    total: float
-    payment_status: Literal["unpaid", "paid"]
-
 class PaymentResponse(BaseModel):
     message: str
     order_id: str
